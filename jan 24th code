@@ -1,0 +1,93 @@
+var health = 40;
+var hp = 20;
+var ship = createSprite(200, 300);
+ship.setAnimation("ship01_up");
+ship.scale = 0.2;
+function controls() {
+  if ((keyDown("up"))) {
+    ship.velocityY = -3;
+  }
+  if ((keyDown("down"))) {
+    ship.velocityY = 3;
+  }
+  if ((keyDown("left"))) {
+    ship.velocityX = -4;
+  }
+  if ((keyDown("right"))) {
+    ship.velocityX = 4;
+  }
+  if ((keyWentUp("down"))) {
+    ship.velocityY = 0;
+  }
+  if ((keyWentUp("up"))) {
+    ship.velocityY = 0;
+  }
+  if ((keyWentUp("left"))) {
+    ship.velocityX = 0;
+  }
+  if ((keyWentUp("right"))) {
+    ship.velocityX = 0;
+  }
+  if (keyWentUp("space")) {
+    var laser1 = createSprite(ship.x, ship.y - 50);
+    laser1.setAnimation("laser");
+    if (laser1.isTouching(evil)) {
+      health = health - 1;
+    }
+    laser1.scale = 0.3;
+    laser1.velocityY = -6;
+    laser1.velocityX = ship.velocityX;
+    laser1.rotationSpeed = 30;
+  }
+}
+function bg() {
+  background(rgb(48, 25, 52));
+  fill("yellow");
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+  ellipse(randomNumber(1, 400), randomNumber(1, 400), 5, 5);
+}
+var evil = createSprite(30, 40);
+evil.setAnimation("ship15_1");
+evil.scale = 0.3;
+function enemy() {
+  if (evil.x == 30) {
+    evil.velocityX = 3;
+  }
+  if (evil.x > 360) {
+    evil.velocityX = -3;
+  }
+  var shoot;
+  shoot = randomNumber(1, 50);
+  if (shoot == 9) {
+    var beam = createSprite(evil.x, evil.y + 30);
+    beam.setAnimation("laser");
+    beam.velocityY = 3;
+    beam.scale = 0.8;
+    while ((beam.isTouching(ship))) {
+      hp = hp - 1;
+    }
+  }
+}
+function draw() {
+  enemy();
+  controls();
+  bg();
+  textSize(30);
+  text("HP:" +   health, 10, 40);
+  text("hp" + hp, 20, 15);
+  drawSprites();
+}
